@@ -16,6 +16,7 @@
     justify-content: flex-start;
     overflow-x: hidden;
     color: white;
+    padding-bottom: 40px;
   }
 
   .logo {
@@ -47,7 +48,7 @@
   #wheel {
     width: 100%;
     height: 100%;
-    margin: 20px 0 0 0;
+    margin: 0;
   }
 
   #pointer {
@@ -72,8 +73,9 @@
     color: white;
     border: none;
     border-radius: 50%;
-    padding: 50px 25px;
-    font-size: 20px;
+    width: 120px;
+    height: 120px;
+    font-size: 18px;
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
@@ -102,13 +104,16 @@
 
   #game-info {
     max-width: 450px;
+    width: 90%;         /* past zich aan kleinere schermen aan */
     padding: 20px;
+    margin: 30px auto;  /* zorgt dat het gecentreerd blijft en niet tegen de randen plakt */
     text-align: left;
     display: none;
     opacity: 0;
     transition: opacity 1s;
+    border-radius: 12px;
   }
-
+  
   #game-info h2 {
     font-size: 28px;
     margin-bottom: 12px;
@@ -209,6 +214,14 @@ const radius = 180;
 let startAngle = 0;
 const arc = Math.PI * 2 / names.length;
 
+let idleSpinId = null;
+
+function idleSpin() {
+  startAngle += 0.002;
+  drawWheel();
+  idleSpinId = requestAnimationFrame(idleSpin);
+}
+
 function drawWheel() {
   ctx.clearRect(0, 0, wheel.width, wheel.height);
   for (let i = 0; i < names.length; i++) {
@@ -231,10 +244,11 @@ function drawWheel() {
 }
 
 function rotateWheel() {
+  if(idleSpinId) cancelAnimationFrame(idleSpinId);
   spinButton.style.display = "none";
   title.style.opacity = 0;
 
-  const selectedName = names[0]; // vaste lootjes
+  const selectedName = names[0];
   const selectedIndex = names.indexOf(selectedName);
 
   const targetAngle = 2 * Math.PI - (selectedIndex * arc + arc / 2); 
@@ -266,15 +280,16 @@ function showGameInfo(name) {
   const knowledgeList = knowledge[name] || "…";
   const infoHTML = `
     <h2>Je hebt <span style="font-size:28px">${name}</span> getrokken!</h2>
-    <br>
-    <p><i>${name}</i> heeft vast wel kennis over het één of ander, bijvoorbeeld over: <b>${knowledgeList}</b>.</p>
-    <p>Om dat te toetsen verzin je een blinde proef.</p>
+	<br>
+    <p><i>${name}</i> denkt een hoop te weten - maar zou hij het verschil tussen Cola en Pepsi proeven? </p>
+    <p>Bedenk een onderwerp / voedselproduct / merk / geluidsfragment waar <i>${name}</i> veel over weet.</p>
+    <p>Verzin vervolgens een blinde proef om te zien of <i>${name}</i> wel echt zoveel weet</p>
     <p>Een paar simpele spelregels:</p>
     <ul>
       <li>🕵️ De proef moet blind zijn;</li>
-      <li>🤑 Kost niet teveel geld om te organiseren;</li>
-      <li>👽 Mag best een beetje ludiek zijn;</li>
-      <li>🍶 Laat weten of/als je specifieke spullen nodig hebt;</li>
+      <li>🤑 Kost niet teveel;</li>
+      <li>👽 Mag ludiek zijn;</li>
+      <li>🍶 Specifieke spullen meebrengen indien nodig;</li>
     </ul>
     <p>Daarnaast koop je <b>2 kados 🎁</b>:</p>
     <ul>
@@ -285,7 +300,7 @@ function showGameInfo(name) {
     <h2>Planning</h2>
     <ul>
       <li>16:00 - Aanvang met Borrel</li>
-      <li>18:00 - (pre)Kerstdiner met Stoofpot</li>
+      <li>18:00 - Kerstdiner</li>
       <li>19:30 - Blinde proeven</li>
       <li>21:00 - Sinterblaf Ronde 1</li>
       <li>21:30 - Intermezzo "SinterKaraoke"</li>
@@ -302,7 +317,7 @@ function showGameInfo(name) {
   title.style.display = "none";
   gameInfo.innerHTML = infoHTML;
   gameInfo.style.display = "block";
-  setTimeout(() => { gameInfo.style.opacity = 1; }, 50);
+  setTimeout(() => { gameInfo.style.opacity = 1; gameInfo.scrollIntoView({ behavior: 'smooth' }); }, 50);
 }
 
 function easeOutCubic(t) {
@@ -310,6 +325,7 @@ function easeOutCubic(t) {
 }
 
 drawWheel();
+idleSpin();
 spinButton.addEventListener("click", rotateWheel);
 
 // sneeuw
