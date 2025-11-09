@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SinterKrab Rad</title>
+<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: radial-gradient(circle at center, #0a1a3f, #051024);
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    overflow-x: hidden;
+    color: white;
+  }
+
+  .logo {
+	margin-top: 24px;
+	width: 180px; /* pas dit aan voor grootte */
+	height: auto;
+	display: block;
+	border-radius: 12px;
+  }
+
+
+  h1 {
+    color: white;
+    margin: 5px 0 25px 0;
+    font-size: 25px;
+    text-align: center;
+    transition: opacity 0.5s;
+  }
+
+  #wheel-container {
+    position: relative;
+    width: 360px;
+    height: 360px;
+    margin-bottom: 40px;
+  }
+
+  #snow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* zodat je knoppen blijft aanklikken */
+    z-index: 0;
+    overflow: hidden;
+  }
+
+
+  .snowflake {
+	position: fixed;
+	top: -10px;
+	color: white;
+	font-size: 1em;
+	animation: fall linear infinite;
+	opacity: 0.8;
+  }
+
+  @keyframes fall {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(100vh) rotate(360deg); }
+  }
+
+  #wheel {
+    width: 100%;
+    height: 100%;
+	margin: 20px 0 0 0 ;
+  }
+
+  #pointer {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%) rotate(180deg);
+    width: 0;
+    height: 0;
+    border-left: 13px solid transparent;
+    border-right: 13px solid transparent;
+    border-bottom: 22px solid red;
+    z-index: 10;
+  }
+
+  .button {
+    background-color: #e53935;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 30px;
+    font-size: 22px;
+    font-weight: bolder;
+    cursor: pointer;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    font-family: 'Comic Neue', cursive;
+    transition: opacity 0.5s;
+  }
+
+  #result {
+    color: #ffeb3b;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 15px;
+    transition: opacity 0.5s;
+  }
+
+  #game-info {
+    max-width: 450px;
+    padding: 20px;
+    text-align: left;
+    display: none;
+    opacity: 0;
+    transition: opacity 1s;
+  }
+
+  #game-info h2 {
+    font-size: 28px;
+    margin-bottom: 12px;
+    color: #ffeb3b;
+  }
+
+  #game-info p {
+    font-size: 18px;
+    margin: 10px 0;
+  }
+
+  #game-info ul {
+    font-size: 18px;
+    margin-left: 20px;
+  }
+
+  #game-info ul li {
+    margin-bottom: 6px;
+  }
+
+  #game-info b {
+    color: #ff9800;
+  }
+
+  #game-info i {
+    color: #81d4fa;
+  }
+
+  canvas {
+    transform: rotate(-90deg);
+  }
+</style>
+</head>
+<body>
+  <div id="snow"></div>
+
+  <img src="logo.png" alt="SinterKrab Logo" class="logo">
+  <h1 id="title">SinterKerstKrab 2025</h1>
+
+  <div id="wheel-container">
+    <div id="pointer"></div>
+    <canvas id="wheel" width="360" height="360"></canvas>
+  </div>
+
+  <div id="result"></div>
+  <button class="button" id="spin">Klik hier voor je lootje</button>
+
+  <div id="game-info"></div>
+
+<script>
+const names = ["Victor", "Annette", "Tim", "Annika", "Charlotte", "Marc", "Mads", "Matthijs", "Nick", "Romana", "Raquel", "Erwin"];
+const knowledge = {
+  "Victor": "Wijn, Bier, Mexicaans Eten, Guns",
+  "Annette": "Chocolade, Geitenkaas, Padel, Pizza",
+  "Tim": "Bier, Vapes, Frituur, Gaming",
+  "Annika": "Wijn, Bier, Bowie, Series",
+  "Charlotte": "Gin, bier, Pizza, Music",
+  "Marc": "Whisky, BBQ, Burgers, Tech",
+  "Mads": "Koffie, Vleeswaren, TexMex, Fitness",
+  "Matthijs": "Bier, Bier, Bier, Alles over Bier",
+  "Nick": "Gin, Burgers, Tapas, Movies",
+  "Romana": "Wijn, Desserts, Italiaans, Trivia",
+  "Raquel": "Cocktails, Sushi, Mexicaans, Gaming",
+  "Erwin": "Whisky, Bier, BBQ, Movies"
+};
+
+const wheel = document.getElementById("wheel");
+const ctx = wheel.getContext("2d");
+const spinButton = document.getElementById("spin");
+const result = document.getElementById("result");
+const title = document.getElementById("title");
+const gameInfo = document.getElementById("game-info");
+const radius = 180;
+let startAngle = 0;
+const arc = Math.PI * 2 / names.length;
+
+function drawWheel() {
+  ctx.clearRect(0, 0, wheel.width, wheel.height);
+  for (let i = 0; i < names.length; i++) {
+    const angle = startAngle + i * arc;
+    ctx.beginPath();
+    ctx.fillStyle = i % 2 === 0 ? "#2b4c8a" : "#1b3b7a";
+    ctx.moveTo(radius, radius);
+    ctx.arc(radius, radius, radius, angle, angle + arc, false);
+    ctx.fill();
+
+    ctx.save();
+    ctx.translate(radius, radius);
+    ctx.rotate(angle + arc / 2);
+    ctx.fillStyle = "white";
+    ctx.font = "bold 14px Arial";
+    ctx.textAlign = "right";
+    ctx.fillText(names[i], radius - 20, 5);
+    ctx.restore();
+  }
+}
+
+function rotateWheel() {
+  spinButton.style.display = "none";
+  title.style.opacity = 0; // fade out titel
+
+  // Bepaal wie er getrokken is
+  const selectedName = names[0]; // fixed lootjes
+  const selectedIndex = names.indexOf(selectedName);
+
+  const targetAngle = 2 * Math.PI - (selectedIndex * arc + arc/2); 
+  const spins = 6; 
+  const spinAngle = spins * 2 * Math.PI + targetAngle;
+  const duration = 4000;
+  const start = performance.now();
+
+  function animate(timestamp) {
+    const elapsed = timestamp - start;
+    if (elapsed < duration) {
+      const progress = elapsed / duration;
+      startAngle = (spinAngle * easeOutCubic(progress)) % (2*Math.PI);
+      drawWheel();
+      requestAnimationFrame(animate);
+    } else {
+      startAngle = spinAngle % (2 * Math.PI);
+      drawWheel();
+      result.textContent = `🦀 Hoera! Je hebt ${selectedName} getrokken!`;
+
+      // korte pauze, dan fade-in van nieuwe pagina
+      setTimeout(() => showGameInfo(selectedName), 2000);
+    }
+  }
+  requestAnimationFrame(animate);
+}
+
+function showGameInfo(name) {
+  const knowledgeList = knowledge[name] || "…";
+  const infoHTML = `
+    <h2>Je hebt <span style="font-size:28px">${name}</span> getrokken!</h2>
+	<br>
+    <p><i>${name}</i> heeft vast wel kennis over het één of ander, bijvoorbeeld over: <b>${knowledgeList}</b>.</p>
+	<p>Om dat te toetsen verzin je een blinde proef ‍</p>
+    <p>Een paar simpele spelregels:️</p>
+    <ul>
+      <li>🕵️ De proef moet blind️ zijn. Mag gaan over smaak, geluid, gevoel en geur;</li>
+      <li>🤑 Kost niet teveel geld om te organiseren;</li>
+	  <li>👽 Mag best een beetje ludiek zijn;</li>
+	  <li>🍶 Laat weten of/als je specifieke spullen nodig hebt voor je proef of neem het zelf mee;</li>
+    </ul>
+    <p>Daarnaast koop je weer <b>2 kados 🎁</b>:</p>
+    <ul>
+      <li>Een blafkado – dit gun je niemand</li>
+      <li>Een leuk kado – dit wil je winnen</li>
+	  <li>Kado's zijn neutraal, dus niet specifiek voor <i>${name}</i> </li>
+	  <li>Pak ze separaat, je legt dus 2 pakjes in </li>
+    </ul>
+    <p>Succes met de voorbereidingen!🦀❤️</p>
+    <h2>Planning</h2>
+    <ul>
+      <li>16:00 - Aanvang met Borrel</li>
+      <li>18:00 - (pre)Kerstdiner met traditionele Stoofpot en passende wijn</li>
+      <li>19:30 - Aanvang blinde proeven</li>
+      <li>21:00 - Sinterblaf Ronde 1</li>
+      <li>21:30 - Intermezzo "SinterKaraoke"</li>
+      <li>22:00 - Sinterblaf Finale</li>
+      <li>23:00 - Naborrelen</li>
+      <li>02:00 - Einde</li>
+    </ul>
+    <p style="margin-top:20px; font-family: 'Shadows Into Light', cursive; font-size:20px; color:white;">
+      Veel plezier met voorbereiden en tot <br>
+	  20-December<br>
+      <br>
+	  Groetjes,<br>
+      SinterKrab
+    </p>
+  `;
+  document.getElementById("wheel-container").style.display = "none";
+  result.style.display = "none";
+  title.style.display = "none";
+  gameInfo.innerHTML = infoHTML;
+  gameInfo.style.display = "block";
+  
+  // fade-in
+  setTimeout(() => { gameInfo.style.opacity = 1; }, 50);
+}
+
+function easeOutCubic(t) {
+  return 1 - Math.pow(1 - t, 3);
+}
+
+drawWheel();
+spinButton.addEventListener("click", rotateWheel);
+</script>
+<script>
+for (let i = 0; i < 25; i++) {
+  const flake = document.createElement("div");
+  flake.classList.add("snowflake");
+  flake.textContent = "❄";
+  flake.style.left = Math.random() * 100 + "vw";
+  flake.style.animationDuration = 5 + Math.random() * 10 + "s";
+  flake.style.fontSize = 10 + Math.random() * 20 + "px";
+  document.body.appendChild(flake);
+}
+</script>
+</body>
+</html>
