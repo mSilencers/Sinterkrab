@@ -42,7 +42,7 @@
 <body>
   <div id="snow"></div>
   <img src="logo.png" alt="SinterKrab Logo" class="logo">
-  <h1 id="title"><b>SinterKrab 2025</b> | <span id="player-name">...</span></h1>
+  <h1 id="title"><b>Sinterkrab</b> | <span id="player-name">...</span></h1>
 
   <div id="wheel-container">
     <div id="pointer"></div>
@@ -55,7 +55,7 @@
 
 <script>
 const names = ["Victor", "Annette", "Tim", "Annika", "Charlotte", "Marc", "Mads", "Matthijs", "Nick", "Romana", "Raquel", "Erwin", "Mike", "Guy"];
-const knowledge = { "Victor": "Wijn, Bier, Mexicaans Eten, Guns", "Annette": "Chocolade, Geitenkaas, Padel, Pizza", "Tim": "Bier, Vapes, Frituur, Feyenoord", "Annika": "Wijn, Bier, Bowie, Series", "Charlotte": "Gin, bier, Pizza, Snoep", "Marc": "Whisky, Cola, pittig, Kip", "Mads": "Bier, VikingFjord, Snor, Fitness", "Matthijs": "Melk, soep, vogels, neus", "Nick": "schilfers, fade, pittig, IT", "Romana": "Coctails, Wiet, procesoperators, Max Verstappen", "Raquel": "Cocktails, Padel, Erwin, RNB", "Erwin": "Feyenoord, Padel, Raquel, RNB", "Mike": "Padel, Bier, Pizza, Wijn", "Guy": "Mysterieuze zaken, Vis, Geheimen, Kaarten" };
+const knowledge = { "Victor": "Wijn, Bier, Mexicaans Eten, Guns", "Annette": "Chocolade, Geitenkaas, Padel, Pizza", "Tim": "Bier, Vapes, Frituur, Feyenoord", "Annika": "Wijn, Bier, Bowie, Series", "Charlotte": "Gin, bier, Pizza, Snoep", "Marc": "Whisky, Cola, pittig, Kip", "Mads": "Bier, VikingFjord, Snor, Fitness", "Matthijs": "Melk, soep, vogels, neus", "Nick": "schilfers, fade, pittig, IT", "Romana": "Coctails, Wiet, procesoperators, Max Verstappen", "Raquel": "Cocktails, Padel, Erwin, RNB", "Erwin": "Feyenoord, Padel, Raquel, RNB", "Mike": "Padel, Bier, Snoep, Cassis", "Guy": "Mysterieuze zaken, Vis, Geheimen, Kaarten" };
 const lootjes = { "Mike": "Victor", "Victor": "Charlotte", "Annette": "Erwin", "Tim": "Nick", "Annika": "Romana", "Charlotte": "Marc", "Marc": "Mads", "Mads": "Annika", "Matthijs": "Raquel", "Nick": "Mike", "Romana": "Tim", "Raquel": "Annette", "Erwin": "Matthijs", "Guy": "Mike" };
 
 const wheel = document.getElementById("wheel");
@@ -163,14 +163,15 @@ function showGameInfo(name) {
       <li>Kado's zijn neutraal, dus niet specifiek voor <i>${name}</i></li>
       <li>Geef niet meer dan 20€ - 30€ uit in totaal.</li>
     </ul>
+	<p> That's it! </P>
     <br>
     <h2>Programma</h2>
     <ul>
       <li>16:00 - Aanvang met Borrel</li>
-      <li>18:00 - Kerstdiner* met traditionele stoofpot</li>
+      <li>18:00 - Kerstdiner* stoofpot</li>
       <li>19:30 - Blinde proeven</li>
       <li>21:00 - Sinterblaf Ronde 1</li>
-      <li>21:30 - Intermezzo "SinterKaraoke" 🎤</li>
+      <li>21:30 - Intermezzo "SinterKaraoke"</li>
       <li>22:00 - Sinterblaf Finale</li>
       <li>23:00 - Naborrelen</li>
       <li>02:00 - Einde</li>
@@ -209,9 +210,9 @@ for (let i = 0; i < 25; i++) {
 // ---- Vissen ----
 const fishesData = [
   { src: "guy.png", width: 60, speed: 1.2, pauseMin:4000, pauseMax:6000, yBase:100, pattern: x=>30*Math.sin(x*0.03)+10*Math.sin(x*0.07), direction:'left' },
-  { src: "brick.png", width: 40, speed: 0.8, pauseMin:8000, pauseMax:10000, yBase:200, pattern: x=>20*Math.sin(x*0.05)+15*Math.cos(x*0.03), direction:'left' },
+  { src: "brick.png", width: 40, speed: 0.8, pauseMin:8000, pauseMax:10000, yBase:400, pattern: x=>20*Math.sin(x*0.05)+15*Math.cos(x*0.03), direction:'left' },
   { src: "kian.png", width: 50, speed: 0.9, pauseMin:12000, pauseMax:13000, yBase:50, pattern: x=>40*Math.sin(x*0.02), direction:'right' },
-  { src: "ba.png", width: 50, speed: 0.7, pauseMin:15000, pauseMax:16000, yBase:150, pattern: x=>35*Math.sin(x*0.03)+15*Math.cos(x*0.05), direction:'right' }
+  { src: "ba.png", width: 50, speed: 0.7, pauseMin:15000, pauseMax:16000, yBase:250, pattern: x=>35*Math.sin(x*0.03)+15*Math.cos(x*0.05), direction:'right' }
 ];
 
 const fishes = fishesData.map(f=>{
