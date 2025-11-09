@@ -18,163 +18,29 @@
     color: white;
     padding-bottom: 40px;
   }
-
-  .logo {
-    margin-top: 24px;
-    width: 180px;
-    height: auto;
-    display: block;
-    border-radius: 12px;
-  }
-
-  h1 {
-    color: white;
-    margin: 5px 0 25px 0;
-    font-size: 25px;
-    text-align: center;
-    transition: opacity 0.5s;
-  }
-
-  #wheel-container {
-    position: relative;
-    width: 360px;
-    height: 360px;
-    margin-bottom: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  #wheel {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-  }
-
-  #pointer {
-    position: absolute;
-    top: -20px;
-    left: 50%;
-    transform: translateX(-50%) rotate(180deg);
-    width: 0;
-    height: 0;
-    border-left: 13px solid transparent;
-    border-right: 13px solid transparent;
-    border-bottom: 22px solid red;
-    z-index: 10;
-  }
-
-  #spin {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #e53935;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 120px;
-    height: 120px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    font-family: 'Comic Neue', cursive;
-    z-index: 5;
-    transition: opacity 0.5s, transform 0.3s;
-  }
-
-  #spin:hover {
-    transform: translate(-50%, -50%) scale(1.05);
-  }
-
-  #result {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #ffeb3b;
-    font-size: 26px;
-    font-weight: bold;
-    text-align: center;
-    opacity: 0;
-    transition: opacity 1s;
-    z-index: 6;
-  }
-
-  #game-info {
-    max-width: 450px;
-    width: 90%;
-    padding: 20px;
-    margin: 30px auto;
-    text-align: left;
-    display: none;
-    opacity: 0;
-    transition: opacity 1s;
-    border-radius: 12px;
-  }
-
-  #game-info h2 {
-    font-size: 28px;
-    margin-bottom: 12px;
-    color: #ffeb3b;
-  }
-
-  #game-info p {
-    font-size: 18px;
-    margin: 10px 0;
-  }
-
-  #game-info ul {
-    font-size: 18px;
-    margin-left: 20px;
-  }
-
-  #game-info ul li {
-    margin-bottom: 6px;
-  }
-
-  #game-info b {
-    color: #ff9800;
-  }
-
-  #game-info i {
-    color: #81d4fa;
-  }
-
-  #snow {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-  }
-
-  .snowflake {
-    position: fixed;
-    top: -10px;
-    color: white;
-    font-size: 1em;
-    animation: fall linear infinite;
-    opacity: 0.8;
-  }
-
-  @keyframes fall {
-    0% { transform: translateY(0) rotate(0deg); }
-    100% { transform: translateY(100vh) rotate(360deg); }
-  }
-
-  canvas {
-    transform: rotate(-90deg);
-  }
+  .logo { margin-top: 24px; width: 180px; height: auto; display: block; border-radius: 12px; }
+  h1 { color: white; margin: 5px 0 25px 0; font-size: 25px; text-align: center; transition: opacity 0.5s; }
+  #wheel-container { position: relative; width: 360px; height: 360px; margin-bottom: 40px; display: flex; justify-content: center; align-items: center; }
+  #wheel { width: 100%; height: 100%; margin: 0; }
+  #pointer { position: absolute; top: -20px; left: 50%; transform: translateX(-50%) rotate(180deg); width: 0; height: 0; border-left: 13px solid transparent; border-right: 13px solid transparent; border-bottom: 22px solid red; z-index: 10; }
+  #spin { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #e53935; color: white; border: none; border-radius: 50%; width: 120px; height: 120px; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-family: 'Comic Neue', cursive; z-index: 5; transition: opacity 0.5s, transform 0.3s; }
+  #spin:hover { transform: translate(-50%, -50%) scale(1.05); }
+  #result { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #ffeb3b; font-size: 26px; font-weight: bold; text-align: center; opacity: 0; transition: opacity 1s; z-index: 6; }
+  #game-info { max-width: 450px; width: 90%; padding: 20px; margin: 30px auto; text-align: left; display: none; opacity: 0; transition: opacity 1s; border-radius: 12px; font-family: Arial, sans-serif; color: white; }
+  #game-info h2 { font-size: 28px; margin-bottom: 12px; color: #ffeb3b; }
+  #game-info p { font-size: 18px; margin: 10px 0; }
+  #game-info ul { font-size: 18px; margin-left: 20px; }
+  #game-info ul li { margin-bottom: 6px; }
+  #game-info b { color: #ff9800; }
+  #game-info i { color: #81d4fa; }
+  #snow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+  .snowflake { position: fixed; top: -10px; color: white; font-size: 1em; animation: fall linear infinite; opacity: 0.8; }
+  @keyframes fall { 0% { transform: translateY(0) rotate(0deg); } 100% { transform: translateY(100vh) rotate(360deg); } }
+  .fish { position: fixed; height: auto; z-index: 2; pointer-events: none; }
 </style>
 </head>
 <body>
   <div id="snow"></div>
-
   <img src="logo.png" alt="SinterKrab Logo" class="logo">
   <h1 id="title"><b>SinterKrab 2025</b> | <span id="player-name">...</span></h1>
 
@@ -188,39 +54,9 @@
   <div id="game-info"></div>
 
 <script>
-
-const names = ["Victor", "Annette", "Tim", "Annika", "Charlotte", "Marc", "Mads", "Matthijs", "Nick", "Romana", "Raquel", "Erwin"];
-const knowledge = {
-  "Victor": "Wijn, Bier, Mexicaans Eten, Guns",
-  "Annette": "Chocolade, Geitenkaas, Padel, Pizza",
-  "Tim": "Bier, Vapes, Frituur, Feyenoord",
-  "Annika": "Wijn, Bier, Bowie, Series",
-  "Charlotte": "Gin, bier, Pizza, Snoep",
-  "Marc": "Whisky, Cola, pittig, Kip",
-  "Mads": "Bier, VikingFjord, Snor, Fitness",
-  "Matthijs": "Melk, soep, vogels, neus",
-  "Nick": "schilfers, fade, pittig, IT",
-  "Romana": "Coctails, Wiet, procesoperators, Max Verstappen",
-  "Raquel": "Cocktails, Padel, Erwin, RNB",
-  "Erwin": "Feyenoord, Padel, Raquel, RNB"
-};
-
-// ---- Lootjes mapping (speler => wie hij/zij krijgt) ----
-const lootjes = {
-  "Mike": "Victor",
-  "Victor": "Charlotte",
-  "Annette": "Erwin",
-  "Tim": "Nick",
-  "Annika": "Romana",
-  "Charlotte": "Marc",
-  "Marc": "Mads",
-  "Mads": "Annika",
-  "Matthijs": "Raquel",
-  "Nick": "Mike",
-  "Romana": "Tim",
-  "Raquel": "Annette",
-  "Erwin": "Matthijs"
-};
+const names = ["Victor", "Annette", "Tim", "Annika", "Charlotte", "Marc", "Mads", "Matthijs", "Nick", "Romana", "Raquel", "Erwin", "Mike", "Guy"];
+const knowledge = { "Victor": "Wijn, Bier, Mexicaans Eten, Guns", "Annette": "Chocolade, Geitenkaas, Padel, Pizza", "Tim": "Bier, Vapes, Frituur, Feyenoord", "Annika": "Wijn, Bier, Bowie, Series", "Charlotte": "Gin, bier, Pizza, Snoep", "Marc": "Whisky, Cola, pittig, Kip", "Mads": "Bier, VikingFjord, Snor, Fitness", "Matthijs": "Melk, soep, vogels, neus", "Nick": "schilfers, fade, pittig, IT", "Romana": "Coctails, Wiet, procesoperators, Max Verstappen", "Raquel": "Cocktails, Padel, Erwin, RNB", "Erwin": "Feyenoord, Padel, Raquel, RNB", "Mike": "Padel, Bier, Pizza, Wijn", "Guy": "Mysterieuze zaken, Vis, Geheimen, Kaarten" };
+const lootjes = { "Mike": "Victor", "Victor": "Charlotte", "Annette": "Erwin", "Tim": "Nick", "Annika": "Romana", "Charlotte": "Marc", "Marc": "Mads", "Mads": "Annika", "Matthijs": "Raquel", "Nick": "Mike", "Romana": "Tim", "Raquel": "Annette", "Erwin": "Matthijs", "Guy": "Mike" };
 
 const wheel = document.getElementById("wheel");
 const ctx = wheel.getContext("2d");
@@ -233,22 +69,13 @@ let startAngle = 0;
 const arc = Math.PI * 2 / names.length;
 let idleSpinId = null;
 
-// ---- Nieuwe: haal speler uit URL en bepaal lootje ----
 const urlParams = new URLSearchParams(window.location.search);
-const playerName = urlParams.get('name') || "Mike"; // speler uit URL
+const playerName = urlParams.get('name') || "Mike";
 const selectedName = lootjes[playerName];
 const selectedIndex = names.indexOf(selectedName);
-
 document.getElementById("player-name").textContent = playerName;
 
-
-// ---- Wheel tekenen ----
-function idleSpin() {
-  startAngle += 0.002;
-  drawWheel();
-  idleSpinId = requestAnimationFrame(idleSpin);
-}
-
+function idleSpin() { startAngle += 0.002; drawWheel(); idleSpinId = requestAnimationFrame(idleSpin); }
 function drawWheel() {
   ctx.clearRect(0, 0, wheel.width, wheel.height);
   for (let i = 0; i < names.length; i++) {
@@ -270,47 +97,56 @@ function drawWheel() {
   }
 }
 
-// ---- Wheel draaien ----
 function rotateWheel() {
-  if(idleSpinId) cancelAnimationFrame(idleSpinId);
+  if (idleSpinId) cancelAnimationFrame(idleSpinId);
   spinButton.style.display = "none";
   title.style.opacity = 0;
 
-  const targetAngle = 2 * Math.PI - (selectedIndex * arc + arc / 2); 
-  const spins = 6;
-  const spinAngle = spins * 2 * Math.PI + targetAngle;
+  const targetIndex = names.indexOf(selectedName);
+  const spins = 6; // aantal volledige spins
+  const segmentAngle = arc;
+
+  // Bereken de hoek waarop het rad moet eindigen
+  // Canvas start bij 0 = rechts, wij willen dat pointer bovenaan wijst
+  const targetRotation = 3/2 * Math.PI - (targetIndex * segmentAngle + segmentAngle/2);
+
+  const totalRotation = spins * 2 * Math.PI + targetRotation - startAngle;
   const duration = 4000;
   const start = performance.now();
+  const initialAngle = startAngle;
 
   function animate(timestamp) {
     const elapsed = timestamp - start;
-    if (elapsed < duration) {
-      const progress = elapsed / duration;
-      startAngle = (spinAngle * easeOutCubic(progress)) % (2 * Math.PI);
-      drawWheel();
+    const progress = Math.min(elapsed / duration, 1);
+    startAngle = initialAngle + totalRotation * easeOutCubic(progress);
+    drawWheel();
+
+    if (progress < 1) {
       requestAnimationFrame(animate);
     } else {
-      startAngle = spinAngle % (2 * Math.PI);
+      startAngle = initialAngle + totalRotation;
       drawWheel();
-      result.textContent = `${selectedName}`;
+      result.textContent = selectedName;
       result.style.opacity = 1;
-
       setTimeout(() => showGameInfo(selectedName), 2000);
     }
   }
+
   requestAnimationFrame(animate);
 }
 
-// ---- Game info tonen ----
+
+
 function showGameInfo(name) {
   const knowledgeList = knowledge[name] || "…";
   const infoHTML = `
-	<p style="margin-top:20px; font-family:'Shadows Into Light', cursive; font-size:25px; color:white;"> Ha ${playerName}, </p>
+    <p style="margin-top:20px; font-family:'Shadows Into Light', cursive; font-size:25px; color:white;">Hi ${playerName},</p>
     <h2>Je hebt <span style="font-size:28px">${name}</span> getrokken!</h2>
-	<br>
-    <p><i>${name}</i> denkt een hoop te weten - maar zou hij/zij het verschil tussen Cola en Pepsi proeven? </p>
+    <br>
+    <p><i>${name}</i> denkt een hoop te weten - maar zou hij/zij bijvoorbeeld het verschil tussen Cola en Pepsi proeven?</p>
+    <br>
     <p>Bedenk een onderwerp / voedselproduct / merk / e.d. waar <i>${name}</i> veel over weet.</p>
-	<p> Bijvoorbeeld <b>${knowledgeList}</b>.</p>
+    <p>Bijvoorbeeld <b>${knowledgeList}</b>.</p>
     <p>Verzin vervolgens een blinde proef om te zien of <i>${name}</i> wel echt zoveel weet</p>
     <p>Een paar simpele spelregels:</p>
     <ul>
@@ -319,15 +155,15 @@ function showGameInfo(name) {
       <li>👽 Wees creatief, Mag ludiek zijn;</li>
       <li>🍶 Specifieke spullen meebrengen indien nodig;</li>
     </ul>
-	<br>
+    <br>
     <p>Daarnaast koop je <b>2 kados 🎁</b>:</p>
     <ul>
       <li>Een blafkado – dit gun je niemand</li>
       <li>Een leuk kado – dit wil je winnen</li>
       <li>Kado's zijn neutraal, dus niet specifiek voor <i>${name}</i></li>
-	  <li>Geef niet meer dan 20€ - 30€ uit in totaal.
+      <li>Geef niet meer dan 20€ - 30€ uit in totaal.</li>
     </ul>
-	<br>
+    <br>
     <h2>Programma</h2>
     <ul>
       <li>16:00 - Aanvang met Borrel</li>
@@ -339,9 +175,9 @@ function showGameInfo(name) {
       <li>23:00 - Naborrelen</li>
       <li>02:00 - Einde</li>
     </ul>
-	<p>* Avondeten meebrengen is niet meer nodig </P>
+    <p>* Avondeten meebrengen is niet meer nodig </p>
     <br>
-	<p style="margin-top:20px; font-family:'Shadows Into Light', cursive; font-size:20px; color:white;">
+    <p style="margin-top:20px; font-family:'Shadows Into Light', cursive; font-size:20px; color:white;">
       Veel plezier met voorbereiden en tot <br>20-December<br><br>Groetjes,<br>SinterKrab 🦀
     </p>
   `;
@@ -359,7 +195,7 @@ drawWheel();
 idleSpin();
 spinButton.addEventListener("click", rotateWheel);
 
-// ---- sneeuw ----
+// sneeuw
 for (let i = 0; i < 25; i++) {
   const flake = document.createElement("div");
   flake.classList.add("snowflake");
@@ -369,6 +205,37 @@ for (let i = 0; i < 25; i++) {
   flake.style.fontSize = 10 + Math.random() * 20 + "px";
   document.body.appendChild(flake);
 }
+
+// ---- Vissen ----
+const fishesData = [
+  { src: "guy.png", width: 60, speed: 1.2, pauseMin:4000, pauseMax:6000, yBase:100, pattern: x=>30*Math.sin(x*0.03)+10*Math.sin(x*0.07), direction:'left' },
+  { src: "brick.png", width: 40, speed: 0.8, pauseMin:8000, pauseMax:10000, yBase:200, pattern: x=>20*Math.sin(x*0.05)+15*Math.cos(x*0.03), direction:'left' },
+  { src: "kian.png", width: 50, speed: 0.9, pauseMin:12000, pauseMax:13000, yBase:50, pattern: x=>40*Math.sin(x*0.02), direction:'right' },
+  { src: "ba.png", width: 50, speed: 0.7, pauseMin:15000, pauseMax:16000, yBase:150, pattern: x=>35*Math.sin(x*0.03)+15*Math.cos(x*0.05), direction:'right' }
+];
+
+const fishes = fishesData.map(f=>{
+  const img = document.createElement("img");
+  img.src = f.src; img.className = "fish"; img.style.width = f.width + "px"; document.body.appendChild(img);
+  return { ...f, element: img, x: f.direction==='left'?window.innerWidth: -f.width, y: f.yBase, pause:0 };
+});
+
+function animateFishes() {
+  fishes.forEach(f=>{
+    if(f.pause <=0){
+      f.x += f.direction==='left'? -f.speed : f.speed;
+      f.y = f.yBase + f.pattern(f.x);
+      if((f.direction==='left' && f.x < -f.width) || (f.direction==='right' && f.x > window.innerWidth)){
+        f.pause = f.pauseMin + Math.random()*(f.pauseMax-f.pauseMin);
+        f.x = f.direction==='left'? window.innerWidth : -f.width;
+      }
+    } else { f.pause -=16; }
+    f.element.style.left = f.x + "px";
+    f.element.style.top = f.y + "px";
+  });
+  requestAnimationFrame(animateFishes);
+}
+animateFishes();
 </script>
 </body>
 </html>
