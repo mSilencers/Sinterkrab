@@ -104,16 +104,16 @@
 
   #game-info {
     max-width: 450px;
-    width: 90%;         /* past zich aan kleinere schermen aan */
+    width: 90%;
     padding: 20px;
-    margin: 30px auto;  /* zorgt dat het gecentreerd blijft en niet tegen de randen plakt */
+    margin: 30px auto;
     text-align: left;
     display: none;
     opacity: 0;
     transition: opacity 1s;
     border-radius: 12px;
   }
-  
+
   #game-info h2 {
     font-size: 28px;
     margin-bottom: 12px;
@@ -176,7 +176,7 @@
   <div id="snow"></div>
 
   <img src="logo.png" alt="SinterKrab Logo" class="logo">
-  <h1 id="title">SinterKerstKrab 2025</h1>
+  <h1 id="title"><b>SinterKrab 2025</b> | <span id="player-name">...</span></h1>
 
   <div id="wheel-container">
     <div id="pointer"></div>
@@ -188,20 +188,38 @@
   <div id="game-info"></div>
 
 <script>
+
 const names = ["Victor", "Annette", "Tim", "Annika", "Charlotte", "Marc", "Mads", "Matthijs", "Nick", "Romana", "Raquel", "Erwin"];
 const knowledge = {
   "Victor": "Wijn, Bier, Mexicaans Eten, Guns",
   "Annette": "Chocolade, Geitenkaas, Padel, Pizza",
-  "Tim": "Bier, Vapes, Frituur, Gaming",
+  "Tim": "Bier, Vapes, Frituur, Feyenoord",
   "Annika": "Wijn, Bier, Bowie, Series",
-  "Charlotte": "Gin, bier, Pizza, Music",
-  "Marc": "Whisky, BBQ, Burgers, Tech",
-  "Mads": "Koffie, Vleeswaren, TexMex, Fitness",
-  "Matthijs": "Bier, Bier, Bier, Alles over Bier",
-  "Nick": "Gin, Burgers, Tapas, Movies",
-  "Romana": "Wijn, Desserts, Italiaans, Trivia",
-  "Raquel": "Cocktails, Sushi, Mexicaans, Gaming",
-  "Erwin": "Whisky, Bier, BBQ, Movies"
+  "Charlotte": "Gin, bier, Pizza, Snoep",
+  "Marc": "Whisky, Cola, pittig, Kip",
+  "Mads": "Bier, VikingFjord, Snor, Fitness",
+  "Matthijs": "Melk, soep, vogels, neus",
+  "Nick": "schilfers, fade, pittig, IT",
+  "Romana": "Coctails, Wiet, procesoperators, Max Verstappen",
+  "Raquel": "Cocktails, Padel, Erwin, RNB",
+  "Erwin": "Feyenoord, Padel, Raquel, RNB"
+};
+
+// ---- Lootjes mapping (speler => wie hij/zij krijgt) ----
+const lootjes = {
+  "Mike": "Victor",
+  "Victor": "Charlotte",
+  "Annette": "Erwin",
+  "Tim": "Nick",
+  "Annika": "Romana",
+  "Charlotte": "Marc",
+  "Marc": "Mads",
+  "Mads": "Annika",
+  "Matthijs": "Raquel",
+  "Nick": "Mike",
+  "Romana": "Tim",
+  "Raquel": "Annette",
+  "Erwin": "Matthijs"
 };
 
 const wheel = document.getElementById("wheel");
@@ -213,9 +231,18 @@ const gameInfo = document.getElementById("game-info");
 const radius = 180;
 let startAngle = 0;
 const arc = Math.PI * 2 / names.length;
-
 let idleSpinId = null;
 
+// ---- Nieuwe: haal speler uit URL en bepaal lootje ----
+const urlParams = new URLSearchParams(window.location.search);
+const playerName = urlParams.get('name') || "Mike"; // speler uit URL
+const selectedName = lootjes[playerName];
+const selectedIndex = names.indexOf(selectedName);
+
+document.getElementById("player-name").textContent = playerName;
+
+
+// ---- Wheel tekenen ----
 function idleSpin() {
   startAngle += 0.002;
   drawWheel();
@@ -243,13 +270,11 @@ function drawWheel() {
   }
 }
 
+// ---- Wheel draaien ----
 function rotateWheel() {
   if(idleSpinId) cancelAnimationFrame(idleSpinId);
   spinButton.style.display = "none";
   title.style.opacity = 0;
-
-  const selectedName = names[0];
-  const selectedIndex = names.indexOf(selectedName);
 
   const targetAngle = 2 * Math.PI - (selectedIndex * arc + arc / 2); 
   const spins = 6;
@@ -276,40 +301,48 @@ function rotateWheel() {
   requestAnimationFrame(animate);
 }
 
+// ---- Game info tonen ----
 function showGameInfo(name) {
   const knowledgeList = knowledge[name] || "…";
   const infoHTML = `
+	<p style="margin-top:20px; font-family:'Shadows Into Light', cursive; font-size:25px; color:white;"> Ha ${playerName}, </p>
     <h2>Je hebt <span style="font-size:28px">${name}</span> getrokken!</h2>
 	<br>
-    <p><i>${name}</i> denkt een hoop te weten - maar zou hij het verschil tussen Cola en Pepsi proeven? </p>
-    <p>Bedenk een onderwerp / voedselproduct / merk / geluidsfragment waar <i>${name}</i> veel over weet.</p>
+    <p><i>${name}</i> denkt een hoop te weten - maar zou hij/zij het verschil tussen Cola en Pepsi proeven? </p>
+    <p>Bedenk een onderwerp / voedselproduct / merk / e.d. waar <i>${name}</i> veel over weet.</p>
+	<p> Bijvoorbeeld <b>${knowledgeList}</b>.</p>
     <p>Verzin vervolgens een blinde proef om te zien of <i>${name}</i> wel echt zoveel weet</p>
     <p>Een paar simpele spelregels:</p>
     <ul>
       <li>🕵️ De proef moet blind zijn;</li>
       <li>🤑 Kost niet teveel;</li>
-      <li>👽 Mag ludiek zijn;</li>
+      <li>👽 Wees creatief, Mag ludiek zijn;</li>
       <li>🍶 Specifieke spullen meebrengen indien nodig;</li>
     </ul>
+	<br>
     <p>Daarnaast koop je <b>2 kados 🎁</b>:</p>
     <ul>
       <li>Een blafkado – dit gun je niemand</li>
       <li>Een leuk kado – dit wil je winnen</li>
       <li>Kado's zijn neutraal, dus niet specifiek voor <i>${name}</i></li>
+	  <li>Geef niet meer dan 20€ - 30€ uit in totaal.
     </ul>
-    <h2>Planning</h2>
+	<br>
+    <h2>Programma</h2>
     <ul>
       <li>16:00 - Aanvang met Borrel</li>
-      <li>18:00 - Kerstdiner</li>
+      <li>18:00 - Kerstdiner* met traditionele stoofpot</li>
       <li>19:30 - Blinde proeven</li>
       <li>21:00 - Sinterblaf Ronde 1</li>
-      <li>21:30 - Intermezzo "SinterKaraoke"</li>
+      <li>21:30 - Intermezzo "SinterKaraoke" 🎤</li>
       <li>22:00 - Sinterblaf Finale</li>
       <li>23:00 - Naborrelen</li>
       <li>02:00 - Einde</li>
     </ul>
-    <p style="margin-top:20px; font-family:'Shadows Into Light', cursive; font-size:20px; color:white;">
-      Veel plezier met voorbereiden en tot <br>20-December<br><br>Groetjes,<br>SinterKrab
+	<p>* Avondeten meebrengen is niet meer nodig </P>
+    <br>
+	<p style="margin-top:20px; font-family:'Shadows Into Light', cursive; font-size:20px; color:white;">
+      Veel plezier met voorbereiden en tot <br>20-December<br><br>Groetjes,<br>SinterKrab 🦀
     </p>
   `;
   document.getElementById("wheel-container").style.display = "none";
@@ -320,15 +353,13 @@ function showGameInfo(name) {
   setTimeout(() => { gameInfo.style.opacity = 1; gameInfo.scrollIntoView({ behavior: 'smooth' }); }, 50);
 }
 
-function easeOutCubic(t) {
-  return 1 - Math.pow(1 - t, 3);
-}
+function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
 
 drawWheel();
 idleSpin();
 spinButton.addEventListener("click", rotateWheel);
 
-// sneeuw
+// ---- sneeuw ----
 for (let i = 0; i < 25; i++) {
   const flake = document.createElement("div");
   flake.classList.add("snowflake");
